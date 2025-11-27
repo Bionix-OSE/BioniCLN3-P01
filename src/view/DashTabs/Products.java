@@ -46,11 +46,11 @@ public class Products extends javax.swing.JPanel {
 
             },
             new String [] {
-                "SKU", "Name", "Qty", "Price"
+                "SKN", "Name", "Category", "Qty", "Price per item"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -69,11 +69,14 @@ public class Products extends javax.swing.JPanel {
             Table.getColumnModel().getColumn(0).setPreferredWidth(48);
             Table.getColumnModel().getColumn(0).setMaxWidth(64);
             Table.getColumnModel().getColumn(2).setMinWidth(16);
-            Table.getColumnModel().getColumn(2).setPreferredWidth(48);
-            Table.getColumnModel().getColumn(2).setMaxWidth(64);
+            Table.getColumnModel().getColumn(2).setPreferredWidth(256);
+            Table.getColumnModel().getColumn(2).setMaxWidth(512);
             Table.getColumnModel().getColumn(3).setMinWidth(16);
             Table.getColumnModel().getColumn(3).setPreferredWidth(48);
             Table.getColumnModel().getColumn(3).setMaxWidth(64);
+            Table.getColumnModel().getColumn(4).setMinWidth(16);
+            Table.getColumnModel().getColumn(4).setPreferredWidth(128);
+            Table.getColumnModel().getColumn(4).setMaxWidth(256);
         }
 
         labelName.setText("Name:");

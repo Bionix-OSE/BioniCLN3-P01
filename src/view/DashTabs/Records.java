@@ -68,7 +68,7 @@ public class Records extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "SKU", "SKU Name", "Type", "Customer ID", "Price"
+                "ID", "SKN", "Pet Name", "Type", "Customer ID", "Price"
             }
         ) {
             Class[] types = new Class [] {
@@ -121,7 +121,7 @@ public class Records extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "SKU", "SKU Name", "Qty", "Customer ID", "Price"
+                "ID", "SKN", "Item Name", "Qty", "Customer ID", "Price"
             }
         ) {
             Class[] types = new Class [] {
@@ -132,6 +132,7 @@ public class Records extends javax.swing.JPanel {
                 return types [columnIndex];
             }
         });
+        Table2.setColumnSelectionAllowed(true);
         Table2.setFillsViewportHeight(true);
         Table2.setShowGrid(true);
         Table2.setShowHorizontalLines(false);

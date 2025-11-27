@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package view.DashTabs;
+package view.ShopTabs;
 
 /**
  *
@@ -29,17 +29,6 @@ public class Pets extends javax.swing.JPanel {
         TableView = new javax.swing.JScrollPane();
         Table = new javax.swing.JTable();
         ControlStrip = new javax.swing.JPanel();
-        labelName = new javax.swing.JLabel();
-        txtName = new javax.swing.JTextField();
-        labelType = new javax.swing.JLabel();
-        txtType = new javax.swing.JComboBox<>();
-        labelBrd = new javax.swing.JLabel();
-        txtBrd = new javax.swing.JTextField();
-        labelAge = new javax.swing.JLabel();
-        txtAge = new javax.swing.JTextField();
-        labelPrice = new javax.swing.JLabel();
-        txtPrice = new javax.swing.JTextField();
-        btnAdd = new javax.swing.JButton();
         btnF5 = new javax.swing.JButton();
         btnDel = new javax.swing.JButton();
 
@@ -86,58 +75,17 @@ public class Pets extends javax.swing.JPanel {
             Table.getColumnModel().getColumn(6).setMaxWidth(128);
         }
 
-        labelName.setText("Name:");
-
-        txtName.addActionListener(this::txtNameActionPerformed);
-
-        labelType.setText("Type:");
-
-        txtType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dog", "Cat" }));
-        txtType.setToolTipText("");
-        txtType.addActionListener(this::txtTypeActionPerformed);
-
-        labelBrd.setText("Breed:");
-
-        txtBrd.addActionListener(this::txtBrdActionPerformed);
-
-        labelAge.setText("Age:");
-
-        labelPrice.setText("Price:");
-
-        btnAdd.setText("Add Pet");
-
         btnF5.setText("Refresh");
 
-        btnDel.setText("Delete selected");
+        btnDel.setText("Buy selected");
+        btnDel.addActionListener(this::btnDelActionPerformed);
 
         javax.swing.GroupLayout ControlStripLayout = new javax.swing.GroupLayout(ControlStrip);
         ControlStrip.setLayout(ControlStripLayout);
         ControlStripLayout.setHorizontalGroup(
             ControlStripLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ControlStripLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(labelName)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(labelType)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(labelBrd)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtBrd, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(labelAge)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtAge, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(labelPrice)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnAdd)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnF5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnDel)
@@ -148,19 +96,8 @@ public class Pets extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ControlStripLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(ControlStripLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelName)
-                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelAge)
-                    .addComponent(txtAge, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelType)
-                    .addComponent(txtType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelPrice)
-                    .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAdd)
                     .addComponent(btnF5)
-                    .addComponent(btnDel)
-                    .addComponent(labelBrd)
-                    .addComponent(txtBrd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnDel))
                 .addGap(6, 6, 6))
         );
 
@@ -169,7 +106,7 @@ public class Pets extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(ControlStrip, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(TableView)
+            .addComponent(TableView, javax.swing.GroupLayout.DEFAULT_SIZE, 1024, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,35 +117,16 @@ public class Pets extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNameActionPerformed
+    private void btnDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtNameActionPerformed
-
-    private void txtTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTypeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTypeActionPerformed
-
-    private void txtBrdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBrdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtBrdActionPerformed
+    }//GEN-LAST:event_btnDelActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ControlStrip;
     private javax.swing.JTable Table;
     private javax.swing.JScrollPane TableView;
-    private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDel;
     private javax.swing.JButton btnF5;
-    private javax.swing.JLabel labelAge;
-    private javax.swing.JLabel labelBrd;
-    private javax.swing.JLabel labelName;
-    private javax.swing.JLabel labelPrice;
-    private javax.swing.JLabel labelType;
-    private javax.swing.JTextField txtAge;
-    private javax.swing.JTextField txtBrd;
-    private javax.swing.JTextField txtName;
-    private javax.swing.JTextField txtPrice;
-    private javax.swing.JComboBox<String> txtType;
     // End of variables declaration//GEN-END:variables
 }

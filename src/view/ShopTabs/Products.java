@@ -2,18 +2,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package view.DashTabs;
+package view.ShopTabs;
 
 /**
  *
  * @author BioniDKU
  */
-public class Usermgr extends javax.swing.JPanel {
+public class Products extends javax.swing.JPanel {
 
     /**
      * Creates new form Pets
      */
-    public Usermgr() {
+    public Products() {
         initComponents();
     }
 
@@ -29,8 +29,6 @@ public class Usermgr extends javax.swing.JPanel {
         TableView = new javax.swing.JScrollPane();
         Table = new javax.swing.JTable();
         ControlStrip = new javax.swing.JPanel();
-        btnAdd = new javax.swing.JButton();
-        btnResetPwd = new javax.swing.JButton();
         btnF5 = new javax.swing.JButton();
         btnDel = new javax.swing.JButton();
 
@@ -41,11 +39,11 @@ public class Usermgr extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Name", "Type"
+                "SKN", "Name", "Category", "Qty", "Price per item"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -64,18 +62,19 @@ public class Usermgr extends javax.swing.JPanel {
             Table.getColumnModel().getColumn(0).setPreferredWidth(48);
             Table.getColumnModel().getColumn(0).setMaxWidth(64);
             Table.getColumnModel().getColumn(2).setMinWidth(16);
-            Table.getColumnModel().getColumn(2).setPreferredWidth(64);
-            Table.getColumnModel().getColumn(2).setMaxWidth(128);
+            Table.getColumnModel().getColumn(2).setPreferredWidth(256);
+            Table.getColumnModel().getColumn(2).setMaxWidth(512);
+            Table.getColumnModel().getColumn(3).setMinWidth(16);
+            Table.getColumnModel().getColumn(3).setPreferredWidth(48);
+            Table.getColumnModel().getColumn(3).setMaxWidth(64);
+            Table.getColumnModel().getColumn(4).setMinWidth(16);
+            Table.getColumnModel().getColumn(4).setPreferredWidth(128);
+            Table.getColumnModel().getColumn(4).setMaxWidth(256);
         }
-
-        btnAdd.setText("Reset password");
-        btnAdd.addActionListener(this::btnAddActionPerformed);
-
-        btnResetPwd.setText("Add user");
 
         btnF5.setText("Refresh");
 
-        btnDel.setText("Delete selected");
+        btnDel.setText("Buy selected");
 
         javax.swing.GroupLayout ControlStripLayout = new javax.swing.GroupLayout(ControlStrip);
         ControlStrip.setLayout(ControlStripLayout);
@@ -83,10 +82,6 @@ public class Usermgr extends javax.swing.JPanel {
             ControlStripLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ControlStripLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnResetPwd)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAdd)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnF5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnDel)
@@ -97,10 +92,8 @@ public class Usermgr extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ControlStripLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(ControlStripLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAdd)
                     .addComponent(btnF5)
-                    .addComponent(btnDel)
-                    .addComponent(btnResetPwd))
+                    .addComponent(btnDel))
                 .addGap(6, 6, 6))
         );
 
@@ -121,18 +114,12 @@ public class Usermgr extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnAddActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ControlStrip;
     private javax.swing.JTable Table;
     private javax.swing.JScrollPane TableView;
-    private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDel;
     private javax.swing.JButton btnF5;
-    private javax.swing.JButton btnResetPwd;
     // End of variables declaration//GEN-END:variables
 }

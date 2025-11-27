@@ -34,6 +34,8 @@ public class ShopUI extends javax.swing.JFrame {
         ControlStrip = new javax.swing.JPanel();
         btnLOGOUT = new javax.swing.JButton();
         TabsUI = new javax.swing.JTabbedPane();
+        Pets = new view.ShopTabs.Pets();
+        Products = new view.ShopTabs.Products();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -56,6 +58,8 @@ public class ShopUI extends javax.swing.JFrame {
 
         TabsUI.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
         TabsUI.setAutoscrolls(true);
+        TabsUI.addTab("Pets", Pets);
+        TabsUI.addTab("Groceries", Products);
 
         HCt.setLayer(ControlStrip, javax.swing.JLayeredPane.POPUP_LAYER);
         HCt.setLayer(TabsUI, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -117,6 +121,8 @@ public class ShopUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ControlStrip;
     private javax.swing.JLayeredPane HCt;
+    private view.ShopTabs.Pets Pets;
+    private view.ShopTabs.Products Products;
     private javax.swing.JTabbedPane TabsUI;
     private javax.swing.JButton btnLOGOUT;
     // End of variables declaration//GEN-END:variables
