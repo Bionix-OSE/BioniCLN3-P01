@@ -19,6 +19,7 @@ public class ShopUI extends javax.swing.JFrame {
      */
     public ShopUI() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -34,8 +35,8 @@ public class ShopUI extends javax.swing.JFrame {
         ControlStrip = new javax.swing.JPanel();
         btnLOGOUT = new javax.swing.JButton();
         TabsUI = new javax.swing.JTabbedPane();
-        Pets = new view.ShopTabs.Pets();
-        Products = new view.ShopTabs.Products();
+        pets1 = new view.ShopTabs.Pets();
+        products1 = new view.ShopTabs.Products();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,8 +59,8 @@ public class ShopUI extends javax.swing.JFrame {
 
         TabsUI.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
         TabsUI.setAutoscrolls(true);
-        TabsUI.addTab("Pets", Pets);
-        TabsUI.addTab("Groceries", Products);
+        TabsUI.addTab("Pets", pets1);
+        TabsUI.addTab("Groceries", products1);
 
         HCt.setLayer(ControlStrip, javax.swing.JLayeredPane.POPUP_LAYER);
         HCt.setLayer(TabsUI, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -98,7 +99,8 @@ public class ShopUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLOGOUTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLOGOUTActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        new LogonUI().setVisible(true);
     }//GEN-LAST:event_btnLOGOUTActionPerformed
 
     /**
@@ -121,9 +123,9 @@ public class ShopUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ControlStrip;
     private javax.swing.JLayeredPane HCt;
-    private view.ShopTabs.Pets Pets;
-    private view.ShopTabs.Products Products;
     private javax.swing.JTabbedPane TabsUI;
     private javax.swing.JButton btnLOGOUT;
+    private view.ShopTabs.Pets pets1;
+    private view.ShopTabs.Products products1;
     // End of variables declaration//GEN-END:variables
 }

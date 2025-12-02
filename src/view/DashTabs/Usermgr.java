@@ -3,18 +3,148 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package view.DashTabs;
+import dao.AccountDAO;
+import controller.AccountCtrl;
+import controller.CustomerCtrl;
+import model.Account;
+import java.util.ArrayList;
+import javax.swing.*;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import java.awt.GridLayout;
 
-/**
- *
- * @author BioniDKU
- */
 public class Usermgr extends javax.swing.JPanel {
 
-    /**
-     * Creates new form Pets
-     */
+    
+    private AccountDAO controller = new AccountDAO(); 
+    private AccountCtrl accountCtrl = new AccountCtrl();
+    private CustomerCtrl customerCtrl = new CustomerCtrl();
+    private DefaultTableModel tableModel;
+
     public Usermgr() {
         initComponents();
+        loadData();
+        if(btnResetPwd != null) {
+            btnResetPwd.addActionListener(e -> addUser()); 
+        }
+        if(btnF5 != null) btnF5.addActionListener(e -> loadData());
+        if(btnDel != null) btnDel.addActionListener(e -> deleteAccount());
+        if(btnAdd != null) btnAdd.addActionListener(e -> resetPassword());
+    }
+    
+    private void addUser() {
+        JTextField txtUser = new JTextField();
+        JPasswordField txtPass = new JPasswordField();
+        JComboBox<String> cbRole = new JComboBox<>(new String[]{"customer", "admin"});
+        
+        JPanel panel = new JPanel(new GridLayout(0, 1));
+        panel.add(new JLabel("Username:"));
+        panel.add(txtUser);
+        panel.add(new JLabel("Password:"));
+        panel.add(txtPass);
+        panel.add(new JLabel("Role:"));
+        panel.add(cbRole);
+
+        int result = JOptionPane.showConfirmDialog(this, panel, "Add New User",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+        if (result == JOptionPane.OK_OPTION) {
+            String user = txtUser.getText().trim();
+            String pass = new String(txtPass.getPassword()).trim();
+            String role = (String) cbRole.getSelectedItem();
+
+            if (user.isEmpty() || pass.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Username and Password cannot be empty!");
+                return;
+            }
+
+            try {
+                if (accountCtrl.getAccount(user) != null) {
+                     JOptionPane.showMessageDialog(this, "Username already exists!");
+                     return;
+                }
+
+                accountCtrl.register(user, pass, role);
+
+                if ("customer".equalsIgnoreCase(role)) {
+                    Account newAcc = accountCtrl.getAccount(user);
+                    if (newAcc != null) {
+                         customerCtrl.addCustomer(user, "", "", newAcc.getId());
+                    }
+                }
+
+                JOptionPane.showMessageDialog(this, "User added successfully!");
+                loadData();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error adding user: " + e.getMessage());
+            }
+        }
+    }
+    
+    
+    private void resetPassword() {
+        int selectedRow = Table.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Select a user to reset password.");
+            return;
+        }
+        
+        String username = (String) Table.getValueAt(selectedRow, 1);
+        String newPass = JOptionPane.showInputDialog(this, "Enter new password for " + username + ":");
+        
+        if (newPass != null && !newPass.trim().isEmpty()) {
+            try {
+                int id = (int) Table.getValueAt(selectedRow, 0);
+                controller.updatePassword(id, newPass);
+                JOptionPane.showMessageDialog(this, "Password updated!");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+            }
+        }
+    }
+
+    private void loadData() {
+        tableModel = (DefaultTableModel) Table.getModel();
+        tableModel.setRowCount(0);
+
+        ArrayList<Account> list = controller.getAll(); //
+
+        for (Account acc : list) {
+            tableModel.addRow(new Object[]{
+                acc.getId(),
+                acc.getUsername(),
+                acc.getRole()
+            });
+        }
+    }
+    
+    private void deleteAccount() {
+        int selectedRow = Table.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Select an account to delete.");
+            return;
+        }
+
+        int id = (int) Table.getValueAt(selectedRow, 0);
+        String username = (String) Table.getValueAt(selectedRow, 1);
+
+        if ("admin".equalsIgnoreCase(username)) {
+            JOptionPane.showMessageDialog(this, "Cannot delete Main Admin!");
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(this, "Delete account: " + username + "?");
+        if (confirm == JOptionPane.YES_OPTION) {
+            try {
+                controller.delete(id);
+                loadData();
+                JOptionPane.showMessageDialog(this, "Deleted successfully.");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+            }
+        }
     }
 
     /**

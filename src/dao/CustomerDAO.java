@@ -7,7 +7,6 @@ import model.Customer;
 
 public class CustomerDAO {
 
-    // Sửa đổi insert để ném lỗi (throw RuntimeException)
     public void insert(Customer c) {
         String sql = "INSERT INTO customers(name, phone, email, account_id) VALUES(?, ?, ?, ?)"; 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -25,12 +24,10 @@ public class CustomerDAO {
             stmt.executeUpdate();
         } catch (Exception e) { 
             e.printStackTrace(); 
-            // NÉM LỖI RA ĐỂ BÁO CHO NGƯỜI DÙNG
             throw new RuntimeException("Failed to create customer profile: " + e.getMessage(), e); 
         }
     }
 
-    // (Giữ nguyên các phương thức getAll và findByAccountId)
     public ArrayList<Customer> getAll() {
         ArrayList<Customer> list = new ArrayList<>();
         String sql = "SELECT * FROM customers";

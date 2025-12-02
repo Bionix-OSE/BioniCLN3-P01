@@ -14,7 +14,7 @@ public class ProductDAO {
             stmt.setString(1, p.getName());
             stmt.setDouble(2, p.getPrice());
             stmt.setInt(3, p.getQuantity());
-            stmt.setString(4, "Uncategorized"); 
+            stmt.setString(4, p.getCategory()); 
             stmt.setNull(5, Types.VARCHAR);      
             stmt.executeUpdate();
         } catch (Exception e) {
@@ -34,7 +34,8 @@ public class ProductDAO {
                         rs.getInt("id"),
                         rs.getString("name"),
                         rs.getDouble("price"),
-                        rs.getInt("quantity")
+                        rs.getInt("quantity"),
+                        rs.getString("category")
                 ));
             }
         } catch (Exception e) { e.printStackTrace(); }
@@ -53,7 +54,6 @@ public class ProductDAO {
         }
     }
     
-    // <-- BƯỚC 1: THÊM PHƯƠNG THỨC UPDATE SỐ LƯỢNG -->
     public void updateQuantity(int productId, int newQuantity) {
         String sql = "UPDATE products SET quantity = ? WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -65,5 +65,24 @@ public class ProductDAO {
             e.printStackTrace();
             throw new RuntimeException("Failed to update product quantity: " + e.getMessage(), e);
         }
+    }
+    
+    public String getNameById(int id) {
+        String name = "Unknown Product";
+        String sql = "SELECT name FROM products WHERE id = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                name = rs.getString("name");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return name;
     }
 }

@@ -4,11 +4,9 @@ public class Order {
 
     private int id;
     private int customerId;
-    
-    // Nâng cấp:
-    private int productId; // Sẽ là 0 nếu mua pet
-    private int petId;     // Sẽ là 0 nếu mua product
-    private String itemType; // 'product' hoặc 'pet'
+    private int productId;
+    private int petId;
+    private String itemType;
     
     private int quantity;
     private double total;
@@ -16,8 +14,6 @@ public class Order {
     public Order() {}
 
    
-
-    // Constructor MỚI (đầy đủ)
     public Order(int id, int customerId, int productId, int petId, String itemType, int quantity, double total) {
         this.id = id;
         this.customerId = customerId;
@@ -28,7 +24,6 @@ public class Order {
         this.total = total;
     }
 
-    // Getters & Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 

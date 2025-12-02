@@ -11,7 +11,7 @@ public class CustomerCtrl {
 
     
     public void addCustomer(String name, String phone, String email, int accountId) {
-        Customer c = new Customer(0, name, phone, email, accountId); // Phải dùng constructor 5 tham số
+        Customer c = new Customer(0, name, phone, email, accountId);
         customerDAO.insert(c);
     }
 

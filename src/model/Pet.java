@@ -1,16 +1,13 @@
 package model;
 
 public abstract class Pet {
-    // [REPORT] INHERITANCE (KẾ THỪA): Đây là Class Cha (Parent Class) chứa các
-    // thuộc tính chung cho mọi thú cưng
-
-    // Sử dụng protected để các Class con (Dog, Cat) có thể truy cập trực tiếp
+    
     protected int id;
     protected String name;
     protected int age;
     protected double price;
-    protected String type; // dog / cat
-
+    protected String type;
+    protected String status;
     public Pet() {
     }
 
@@ -20,8 +17,17 @@ public abstract class Pet {
         this.age = age;
         this.price = price;
         this.type = type;
+        this.status = "Available";
+    }
+    
+    public String getStatus() {
+        return status;
     }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
     public int getId() {
         return id;
     }
@@ -61,4 +67,8 @@ public abstract class Pet {
     public void setType(String type) {
         this.type = type;
     }
+    
+    public abstract String getBreed();
+    
+    public abstract void setBreed(String breed);
 }

@@ -1,14 +1,10 @@
 package model;
 
 public class Account {
-    // [REPORT] ENCAPSULATION (ĐÓNG GÓI): Class Account sử dụng các thuộc tính
-    // private để bảo vệ dữ liệu
-
-    // Các thuộc tính private (Che giấu dữ liệu)
     private int id;
     private String username;
     private String password;
-    private String role; // admin / customer
+    private String role;
 
     public Account() {
     }
@@ -20,7 +16,6 @@ public class Account {
         this.role = role;
     }
 
-    // [REPORT] Public Getters & Setters (Truy cập dữ liệu an toàn)
     public int getId() {
         return id;
     }

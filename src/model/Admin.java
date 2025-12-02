@@ -6,9 +6,8 @@ public class Admin {
     private String email;
     private String phone;
     private String department;
-    private String username; // liên kết với account
+    private String username;
 
-    // Constructor đầy đủ
     public Admin(String adminId, String fullName, String email, String phone, String department, String username) {
         this.adminId = adminId;
         this.fullName = fullName;
@@ -18,10 +17,8 @@ public class Admin {
         this.username = username;
     }
 
-    // Constructor rỗng (nếu cần)
     public Admin() {}
 
-    // Getter & Setter
     public String getAdminId() {
         return adminId;
     }
@@ -70,7 +67,6 @@ public class Admin {
         this.username = username;
     }
 
-    // Có thể override toString() nếu muốn hiển thị trong GUI
     @Override
     public String toString() {
         return fullName + " (" + adminId + ")";

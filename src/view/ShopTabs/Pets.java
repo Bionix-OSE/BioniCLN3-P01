@@ -4,17 +4,72 @@
  */
 package view.ShopTabs;
 
-/**
- *
- * @author BioniDKU
- */
+import controller.OrderCtrl;
+import controller.PetCtrl;
+import model.Pet;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 public class Pets extends javax.swing.JPanel {
 
-    /**
-     * Creates new form Pets
-     */
+    private PetCtrl petCtrl = new PetCtrl();
+    private OrderCtrl orderCtrl = new OrderCtrl();
+    private DefaultTableModel tableModel;
+
     public Pets() {
         initComponents();
+        loadData();
+        
+        if(btnF5 != null) btnF5.addActionListener(e -> loadData());
+        
+        if(btnDel != null) btnDel.addActionListener(e -> buySelectedPet());
+    }
+
+    private void loadData() {
+        tableModel = (DefaultTableModel) Table.getModel();
+        tableModel.setRowCount(0);
+        ArrayList<Pet> list = petCtrl.getAllPets();
+        for (Pet p : list) {
+            if(!"Sold".equalsIgnoreCase(p.getStatus())){
+                tableModel.addRow(new Object[]{
+                    p.getId(), p.getName(), p.getType(), p.getBreed(), 
+                    p.getAge(), p.getPrice(), true
+                });
+            }
+        }
+    }
+
+    private void buySelectedPet() {
+        int selectedRow = Table.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a pet to buy!");
+            return;
+        }
+
+        int petId = (int) Table.getValueAt(selectedRow, 0);
+        String petName = (String) Table.getValueAt(selectedRow, 1);
+        double price = (double) Table.getValueAt(selectedRow, 5);
+
+        int confirm = JOptionPane.showConfirmDialog(this, 
+                "Do you want to buy " + petName + " for $" + price + "?");
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            try {
+                int customerId = 2; 
+
+                orderCtrl.addPetOrder(customerId, petId, price);
+
+                petCtrl.updatePetStatus(petId, "Sold");
+
+                JOptionPane.showMessageDialog(this, "Purchase successful!");
+                loadData(); 
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error during purchase: " + e.getMessage());
+            }
+        }
     }
 
     /**

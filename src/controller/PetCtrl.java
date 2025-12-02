@@ -11,21 +11,20 @@ public class PetCtrl {
 
     private PetDAO petDAO = new PetDAO();
 
-    // [CHANGE] Sửa logic để tạo đối tượng cụ thể
-    public void addPet(String name, int age, double price, String type) {
+    public void addPet(String name, int age, double price, String type, String extraInfo) {
         Pet pet = null;
-        
+
         if ("dog".equalsIgnoreCase(type)) {
-            pet = new Dog(0, name, age, price, "N/A"); // Breed tạm thời chưa nhập
+            pet = new Dog(0, name, age, price, extraInfo); 
         } else if ("cat".equalsIgnoreCase(type)) {
-            pet = new Cat(0, name, age, price, "N/A"); // Color tạm thời chưa nhập
+            pet = new Cat(0, name, age, price, extraInfo); 
         } else {
-            // Mặc định nếu không phải dog/cat (ví dụ nhập sai)
-            pet = new Dog(0, name, age, price, "Unknown");
+            System.out.println("Error: Invalid pet type: " + type);
         }
-        
-        // DAO sẽ nhận vào 'Pet' nhưng thực chất nó đang xử lý 'Dog' hoặc 'Cat' (Đa hình)
-        petDAO.insert(pet);
+
+        if (pet != null) {
+            petDAO.insert(pet);
+        }
     }
 
     public ArrayList<Pet> getAllPets() {
@@ -36,7 +35,6 @@ public class PetCtrl {
         petDAO.delete(id);
     }
     
-    // <-- BƯỚC 5: THÊM PHƯƠNG THỨC GỌI UPDATE -->
     public void updatePetStatus(int petId, String status) {
         petDAO.updateStatus(petId, status);
     }

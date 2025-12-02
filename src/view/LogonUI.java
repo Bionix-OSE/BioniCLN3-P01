@@ -11,6 +11,8 @@ public class LogonUI extends javax.swing.JFrame {
      */
     public LogonUI() {
         initComponents();
+        this.getRootPane().setDefaultButton(btnLogin);
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -29,6 +31,7 @@ public class LogonUI extends javax.swing.JFrame {
         txtUser = new javax.swing.JTextField();
         txtPass = new javax.swing.JPasswordField();
         Logo = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -57,7 +60,7 @@ public class LogonUI extends javax.swing.JFrame {
             }
         });
 
-        Logo.setIcon(new javax.swing.ImageIcon("C:\\Users\\BioniDKU\\Documents\\NetBeansProjects\\PetShop2\\src\\view\\resources\\dog_face_128.png")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/Resources/dog_face_128.png"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -66,21 +69,23 @@ public class LogonUI extends javax.swing.JFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addGap(73, 73, 73)
-                    .addComponent(labelPass, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(73, 73, 73))
-                .addGroup(layout.createSequentialGroup()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(labelPass, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                         .addGroup(layout.createSequentialGroup()
-                            .addGap(73, 73, 73)
                             .addComponent(labelUser)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(137, 137, 137)
-                            .addComponent(Logo)))
-                    .addGap(67, 67, 67)))
+                            .addGap(7, 7, 7)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(txtUser, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                        .addComponent(txtPass))
+                    .addGap(93, 93, 93))
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(137, 137, 137)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel1)
+                        .addComponent(Logo))
+                    .addContainerGap()))
             .addGroup(layout.createSequentialGroup()
                 .addGap(122, 122, 122)
                 .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -91,7 +96,9 @@ public class LogonUI extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(36, 36, 36)
+                .addGap(14, 14, 14)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Logo)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -126,8 +133,10 @@ public class LogonUI extends javax.swing.JFrame {
         // Chuyển hướng Dashboard
         if ("admin".equalsIgnoreCase(acc.getRole())) {
             // new AdminDashboard(acc).setVisible(true);
+            new DashUI().setVisible(true);
         } else {
             // new CustomerDashboard(acc).setVisible(true);
+            new ShopUI().setVisible(true);
         }
         this.dispose(); // Đóng cửa sổ Login
     }//GEN-LAST:event_btnLoginActionPerformed
@@ -163,6 +172,7 @@ public class LogonUI extends javax.swing.JFrame {
     private javax.swing.JLabel Logo;
     private javax.swing.JButton btnLogin;
     private javax.swing.JButton btnRegister;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel labelPass;
     private javax.swing.JLabel labelUser;
     private javax.swing.JPasswordField txtPass;

@@ -7,7 +7,6 @@ import model.Order;
 
 public class OrderDAO {
 
-    // (Phương thức insert() giữ nguyên)
     public void insert(Order o) {
         String sql = "INSERT INTO orders(customer_id, product_id, pet_id, item_type, quantity, total) VALUES(?, ?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -27,7 +26,6 @@ public class OrderDAO {
         }
     }
 
-    // (Phương thức getAll() giữ nguyên)
     public ArrayList<Order> getAll() {
         ArrayList<Order> list = new ArrayList<>();
         String sql = "SELECT * FROM orders";
@@ -41,7 +39,6 @@ public class OrderDAO {
         return list;
     }
     
-    // (Phương thức getByCustomerId() giữ nguyên)
     public ArrayList<Order> getByCustomerId(int customerId) {
         ArrayList<Order> list = new ArrayList<>();
         String sql = "SELECT * FROM orders WHERE customer_id = ?";
@@ -56,7 +53,6 @@ public class OrderDAO {
         return list;
     }
     
-    // (Phương thức delete() giữ nguyên)
     public void delete(int id) {
         String sql = "DELETE FROM orders WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -69,7 +65,6 @@ public class OrderDAO {
         }
     }
     
-    // <-- BƯỚC 1: THÊM PHƯƠNG THỨC MỚI NÀY -->
     public Order getOrderById(int orderId) {
         String sql = "SELECT * FROM orders WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -85,7 +80,6 @@ public class OrderDAO {
         return null;
     }
     
-    // (Phương thức mapRowToOrder() giữ nguyên)
     private Order mapRowToOrder(ResultSet rs) throws SQLException {
         return new Order(
                 rs.getInt("id"),

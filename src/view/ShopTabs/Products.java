@@ -4,19 +4,93 @@
  */
 package view.ShopTabs;
 
-/**
- *
- * @author BioniDKU
- */
+import javax.swing.JOptionPane;
+import controller.OrderCtrl;
+import controller.ProductCtrl;
+import model.Product;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 public class Products extends javax.swing.JPanel {
 
-    /**
-     * Creates new form Pets
-     */
+    private ProductCtrl productCtrl = new ProductCtrl();
+    private OrderCtrl orderCtrl = new OrderCtrl();
+    private DefaultTableModel tableModel;
+
     public Products() {
         initComponents();
+        loadData();
+        
+        if(btnF5 != null) btnF5.addActionListener(e -> loadData());
+        if(btnDel != null) btnDel.addActionListener(e -> buySelectedProduct());
     }
 
+    private void loadData() {
+        tableModel = (DefaultTableModel) Table.getModel();
+        tableModel.setRowCount(0);
+        ArrayList<Product> list = productCtrl.getAllProducts();
+        for (Product p : list) {
+            if (p.getQuantity() > 0) {
+                tableModel.addRow(new Object[]{
+                    p.getId(), p.getName(), p.getCategory(), 
+                    p.getQuantity(), p.getPrice()
+                });
+            }
+        }
+    }
+
+    private void buySelectedProduct() {
+        int selectedRow = Table.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a product to buy!");
+            return;
+        }
+
+        int productId = (int) Table.getValueAt(selectedRow, 0);
+        String prodName = (String) Table.getValueAt(selectedRow, 1);
+        int currentStock = (int) Table.getValueAt(selectedRow, 3);
+        double price = (double) Table.getValueAt(selectedRow, 4);
+
+        String inputQty = JOptionPane.showInputDialog(this, 
+                "Buying: " + prodName + "\nPrice: $" + price + "\nAvailable: " + currentStock + "\n\nEnter Quantity:");
+        
+        if (inputQty == null || inputQty.isEmpty()) return;
+
+        try {
+            int buyQty = Integer.parseInt(inputQty);
+
+            if (buyQty <= 0) {
+                JOptionPane.showMessageDialog(this, "Quantity must be > 0");
+                return;
+            }
+            if (buyQty > currentStock) {
+                JOptionPane.showMessageDialog(this, "Not enough stock! Only " + currentStock + " left.");
+                return;
+            }
+
+            double total = buyQty * price;
+            
+            int confirm = JOptionPane.showConfirmDialog(this, 
+                    "Total cost: $" + total + ". Confirm purchase?");
+
+            if (confirm == JOptionPane.YES_OPTION) {
+                int customerId = 2;
+                orderCtrl.addProductOrder(customerId, productId, buyQty, total);
+
+                int newStock = currentStock - buyQty;
+                productCtrl.updateProductQuantity(productId, newStock);
+
+                JOptionPane.showMessageDialog(this, "Purchase successful!");
+                loadData();
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Invalid quantity number!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

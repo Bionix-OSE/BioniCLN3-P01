@@ -6,18 +6,10 @@ public class Customer {
     private String name;
     private String phone;
     private String email;
-    private int accountId; // <-- BẮT BUỘC CÓ DÒNG NÀY
+    private int accountId;
 
     public Customer() {}
-
-    public Customer(int id, String name, String phone, String email) {
-        this.id = id;
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
-    }
-    
-    // BẮT BUỘC CÓ CONSTRUCTOR 5 THAM SỐ NÀY
+      
     public Customer(int id, String name, String phone, String email, int accountId) {
         this.id = id;
         this.name = name;
@@ -26,7 +18,7 @@ public class Customer {
         this.accountId = accountId;
     }
 
-    // Getters & Setters
+    
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
@@ -38,8 +30,7 @@ public class Customer {
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
-    
-    // BẮT BUỘC CÓ GETTER/SETTER NÀY
+
     public int getAccountId() { return accountId; }
     public void setAccountId(int accountId) { this.accountId = accountId; }
 }

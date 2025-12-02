@@ -8,9 +8,10 @@ import model.Product;
 public class ProductCtrl {
 
     private ProductDAO productDAO = new ProductDAO();
-
-    public void addProduct(String name, double price, int quantity) {
-        Product p = new Product(0, name, price, quantity); 
+    
+    
+    public void addProduct(String name, double price, int quantity, String category) {
+        Product p = new Product(0, name, price, quantity, category); 
         productDAO.insert(p);
     }
 
@@ -22,7 +23,6 @@ public class ProductCtrl {
         productDAO.delete(id);
     }
     
-    // <-- BƯỚC 2: THÊM PHƯƠNG THỨC GỌI UPDATE -->
     public void updateProductQuantity(int productId, int newQuantity) {
         productDAO.updateQuantity(productId, newQuantity);
     }

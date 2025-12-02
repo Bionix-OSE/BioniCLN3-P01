@@ -4,17 +4,117 @@
  */
 package view.DashTabs;
 
-/**
- *
- * @author BioniDKU
- */
+import controller.ProductCtrl;
+import model.Product;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 public class Products extends javax.swing.JPanel {
 
-    /**
-     * Creates new form Pets
-     */
+    private controller.ProductCtrl controller = new controller.ProductCtrl();
+    private javax.swing.table.DefaultTableModel tableModel;
+
     public Products() {
         initComponents();
+        
+        loadData();
+        
+        btnF5.addActionListener(e -> loadData());
+        btnAdd.addActionListener(e -> addProduct());
+        btnDel.addActionListener(e -> deleteProduct());
+    }
+
+    private void loadData() {
+        tableModel = (DefaultTableModel) Table.getModel();
+        tableModel.setRowCount(0);
+
+        ArrayList<Product> list = controller.getAllProducts();
+
+        for (Product p : list) {
+            
+            tableModel.addRow(new Object[]{
+                p.getId(),
+                p.getName(),
+                p.getCategory(),
+                p.getQuantity(),
+                p.getPrice()
+            });
+        }
+    }
+
+    
+    private void addProduct() {
+        try {
+            String name = txtName.getText().trim();
+            
+            
+            String category = txtCategory.getText().trim(); 
+            
+            if (category.isEmpty()) {
+                category = "General";
+            }
+
+            String qtyText = txtQty.getText().trim();
+            String priceText = txtPrice.getText().trim();
+
+            if (name.isEmpty() || qtyText.isEmpty() || priceText.isEmpty()) {
+                 JOptionPane.showMessageDialog(this, "Please fill in Name, Quantity and Price.");
+                 return;
+            }
+
+            int quantity = Integer.parseInt(qtyText);
+            double price = Double.parseDouble(priceText);
+
+            controller.addProduct(name, price, quantity, category); 
+            
+            JOptionPane.showMessageDialog(this, "Product added successfully!");
+            loadData();
+            
+            txtName.setText("");
+            txtCategory.setText("");
+            txtQty.setText("");
+            txtPrice.setText("");
+            
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Quantity and Price must be valid numbers!", "Input Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        }
+    }
+
+    private void deleteProduct() {
+        
+        int selectedRow = Table.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a product to delete.");
+            return;
+        }
+
+        
+        int id = (int) Table.getValueAt(selectedRow, 0);
+        String name = (String) Table.getValueAt(selectedRow, 1);
+        
+        
+        int confirm = JOptionPane.showConfirmDialog(this, 
+                "Delete product: " + name + "?", 
+                "Confirm Delete", 
+                JOptionPane.YES_NO_OPTION);
+                
+        
+        if (confirm == JOptionPane.YES_OPTION) {
+            try {
+                controller.deleteProduct(id);
+                
+                loadData();
+                JOptionPane.showMessageDialog(this, "Deleted successfully!");
+                
+            } catch (Exception e) {
+                
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+            }
+        }
     }
 
     /**
@@ -38,6 +138,9 @@ public class Products extends javax.swing.JPanel {
         btnAdd = new javax.swing.JButton();
         btnF5 = new javax.swing.JButton();
         btnDel = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        txtCategory = new javax.swing.JTextField();
 
         setPreferredSize(new java.awt.Dimension(1024, 720));
 
@@ -95,6 +198,10 @@ public class Products extends javax.swing.JPanel {
 
         btnDel.setText("Delete selected");
 
+        jLabel1.setText("Category");
+
+        txtCategory.addActionListener(this::txtCategoryActionPerformed);
+
         javax.swing.GroupLayout ControlStripLayout = new javax.swing.GroupLayout(ControlStrip);
         ControlStrip.setLayout(ControlStripLayout);
         ControlStripLayout.setHorizontalGroup(
@@ -110,9 +217,15 @@ public class Products extends javax.swing.JPanel {
                 .addComponent(txtQty, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(labelPrice)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 172, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(btnAdd)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnF5)
@@ -133,7 +246,10 @@ public class Products extends javax.swing.JPanel {
                     .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAdd)
                     .addComponent(btnF5)
-                    .addComponent(btnDel))
+                    .addComponent(btnDel)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(txtCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(6, 6, 6))
         );
 
@@ -142,15 +258,13 @@ public class Products extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(ControlStrip, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(TableView, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(TableView)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(ControlStrip, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(TableView, javax.swing.GroupLayout.DEFAULT_SIZE, 685, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+                .addComponent(TableView, javax.swing.GroupLayout.DEFAULT_SIZE, 685, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -162,6 +276,10 @@ public class Products extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtQtyActionPerformed
 
+    private void txtCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCategoryActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCategoryActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ControlStrip;
@@ -170,9 +288,12 @@ public class Products extends javax.swing.JPanel {
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDel;
     private javax.swing.JButton btnF5;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel labelName;
     private javax.swing.JLabel labelPrice;
     private javax.swing.JLabel labelQty;
+    private javax.swing.JTextField txtCategory;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtPrice;
     private javax.swing.JTextField txtQty;

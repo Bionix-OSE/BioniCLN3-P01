@@ -6,15 +6,10 @@ import java.util.ArrayList;
 import model.Account;
 
 public class AccountDAO {
-    // [REPORT] DAO PATTERN (Data Access Object): Tách biệt logic truy cập dữ liệu
-    // khỏi logic nghiệp vụ
-
-    // Sửa đổi insert để ném lỗi (throw RuntimeException)
     public void insert(Account acc) {
         String sql = "INSERT INTO accounts(username,password,role) VALUES(?,?,?)";
-        // [REPORT] Sử dụng try-with-resources để tự động đóng kết nối
         try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) { // [REPORT] PreparedStatement chống SQL Injection
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, acc.getUsername());
             stmt.setString(2, acc.getPassword());
@@ -22,12 +17,10 @@ public class AccountDAO {
             stmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
-            // NÉM LỖI RA ĐỂ BÁO CHO NGƯỜI DÙNG
             throw new RuntimeException("Failed to create account: " + e.getMessage(), e);
         }
     }
 
-    // (Giữ nguyên các phương thức findByUsername và getAll)
     public Account findByUsername(String username) {
         String sql = "SELECT * FROM accounts WHERE username = ?";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -68,5 +61,29 @@ public class AccountDAO {
             e.printStackTrace();
         }
         return list;
+    }
+    public void delete(int id) {
+        String sql = "DELETE FROM accounts WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error when deleting account: " + e.getMessage());
+        }
+    }
+
+    public void updatePassword(int id, String newPass) {
+        String sql = "UPDATE accounts SET password = ? WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, newPass);
+            stmt.setInt(2, id);
+            stmt.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Password change error: " + e.getMessage());
+        }
     }
 }

@@ -4,18 +4,76 @@
  */
 package view.DashTabs;
 
-/**
- *
- * @author BioniDKU
- */
+import controller.OrderCtrl; 
+import model.Order;
+import dao.PetDAO;
+import dao.ProductDAO;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+
 public class Records extends javax.swing.JPanel {
 
-    /**
-     * Creates new form Records
-     */
+    
+    private OrderCtrl controller = new OrderCtrl();
+
     public Records() {
         initComponents();
+        loadData();
+        
+        if(btnF5 != null) btnF5.addActionListener(e -> loadData());
     }
+
+    private void loadData() {
+        
+        DefaultTableModel modelPets = (DefaultTableModel) Table1.getModel();
+        DefaultTableModel modelProducts = (DefaultTableModel) Table2.getModel();
+        
+        modelPets.setRowCount(0);
+        modelProducts.setRowCount(0);
+
+       
+        ArrayList<Order> list = controller.getAllOrders();
+        
+        PetDAO petDAO = new PetDAO();
+        ProductDAO productDAO = new ProductDAO();
+        
+        double totalRevenue = 0;
+        int count = 0;
+
+        for (Order o : list) {
+            totalRevenue += o.getTotal();
+            count++;
+
+           
+            if ("pet".equalsIgnoreCase(o.getItemType())) {
+                String realPetName = petDAO.getNameById(o.getPetId());
+                modelPets.addRow(new Object[]{
+                    o.getId(),
+                    o.getPetId(),
+                    realPetName,
+                    "Pet",
+                    o.getCustomerId(),
+                    String.format("%,.0f", o.getTotal())
+                });
+            } else {
+                String realProductName = productDAO.getNameById(o.getProductId());
+                modelProducts.addRow(new Object[]{
+                    o.getId(),
+                    o.getProductId(),
+                    realProductName,
+                    o.getQuantity(),
+                    o.getCustomerId(),
+                    String.format("%,.0f", o.getTotal())
+                });
+            }
+        }
+        
+        
+        if (jLabel1 != null) {
+            jLabel1.setText("Total Orders: " + count + " - Revenue: " + String.format("%,.0f", totalRevenue));
+        }
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -27,9 +85,6 @@ public class Records extends javax.swing.JPanel {
     private void initComponents() {
 
         HCt = new javax.swing.JLayeredPane();
-        ControlStrip = new javax.swing.JPanel();
-        btnF5 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         TabsUI = new javax.swing.JTabbedPane();
         Pets = new javax.swing.JPanel();
         TableView1 = new javax.swing.JScrollPane();
@@ -37,31 +92,9 @@ public class Records extends javax.swing.JPanel {
         Products = new javax.swing.JPanel();
         TableView2 = new javax.swing.JScrollPane();
         Table2 = new javax.swing.JTable();
-
-        btnF5.setText("Refresh");
-
-        jLabel1.setText("Total orders: {numOrders} - Total revenue: {sumRevenue}");
-
-        javax.swing.GroupLayout ControlStripLayout = new javax.swing.GroupLayout(ControlStrip);
-        ControlStrip.setLayout(ControlStripLayout);
-        ControlStripLayout.setHorizontalGroup(
-            ControlStripLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ControlStripLayout.createSequentialGroup()
-                .addContainerGap(498, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnF5)
-                .addContainerGap())
-        );
-        ControlStripLayout.setVerticalGroup(
-            ControlStripLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ControlStripLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(ControlStripLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnF5)
-                    .addComponent(jLabel1))
-                .addContainerGap())
-        );
+        ControlStrip = new javax.swing.JPanel();
+        btnF5 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         Table1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -169,8 +202,33 @@ public class Records extends javax.swing.JPanel {
 
         TabsUI.addTab("Groceries", Products);
 
-        HCt.setLayer(ControlStrip, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        btnF5.setText("Refresh");
+
+        jLabel1.setText("Total orders: {numOrders} - Total revenue: {sumRevenue}");
+
+        javax.swing.GroupLayout ControlStripLayout = new javax.swing.GroupLayout(ControlStrip);
+        ControlStrip.setLayout(ControlStripLayout);
+        ControlStripLayout.setHorizontalGroup(
+            ControlStripLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ControlStripLayout.createSequentialGroup()
+                .addContainerGap(498, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnF5)
+                .addContainerGap())
+        );
+        ControlStripLayout.setVerticalGroup(
+            ControlStripLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ControlStripLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(ControlStripLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnF5)
+                    .addComponent(jLabel1))
+                .addContainerGap())
+        );
+
         HCt.setLayer(TabsUI, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        HCt.setLayer(ControlStrip, javax.swing.JLayeredPane.POPUP_LAYER);
 
         javax.swing.GroupLayout HCtLayout = new javax.swing.GroupLayout(HCt);
         HCt.setLayout(HCtLayout);

@@ -19,6 +19,7 @@ public class DashUI extends javax.swing.JFrame {
      */
     public DashUI() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -34,13 +35,12 @@ public class DashUI extends javax.swing.JFrame {
         ControlStrip = new javax.swing.JPanel();
         btnLOGOUT = new javax.swing.JButton();
         TabsUI = new javax.swing.JTabbedPane();
-        Pets = new view.DashTabs.Pets();
-        Products = new view.DashTabs.Products();
-        Records = new view.DashTabs.Records();
-        Usermgr = new view.DashTabs.Usermgr();
+        pets2 = new view.DashTabs.Pets();
+        products2 = new view.DashTabs.Products();
+        records1 = new view.DashTabs.Records();
+        usermgr1 = new view.DashTabs.Usermgr();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1024, 768));
 
         btnLOGOUT.setText("Log out");
         btnLOGOUT.setBorder(null);
@@ -61,10 +61,10 @@ public class DashUI extends javax.swing.JFrame {
 
         TabsUI.setBackground(javax.swing.UIManager.getDefaults().getColor("Button.background"));
         TabsUI.setAutoscrolls(true);
-        TabsUI.addTab("Pets list", Pets);
-        TabsUI.addTab("Groceries list", Products);
-        TabsUI.addTab("Sales records", Records);
-        TabsUI.addTab("User manager", Usermgr);
+        TabsUI.addTab("Pets list", pets2);
+        TabsUI.addTab("Groceries list", products2);
+        TabsUI.addTab("Sales records", records1);
+        TabsUI.addTab("User manager", usermgr1);
 
         HCt.setLayer(ControlStrip, javax.swing.JLayeredPane.POPUP_LAYER);
         HCt.setLayer(TabsUI, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -103,7 +103,8 @@ public class DashUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLOGOUTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLOGOUTActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        new LogonUI().setVisible(true);
     }//GEN-LAST:event_btnLOGOUTActionPerformed
 
     /**
@@ -126,11 +127,11 @@ public class DashUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ControlStrip;
     private javax.swing.JLayeredPane HCt;
-    private view.DashTabs.Pets Pets;
-    private view.DashTabs.Products Products;
-    private view.DashTabs.Records Records;
     private javax.swing.JTabbedPane TabsUI;
-    private view.DashTabs.Usermgr Usermgr;
     private javax.swing.JButton btnLOGOUT;
+    private view.DashTabs.Pets pets2;
+    private view.DashTabs.Products products2;
+    private view.DashTabs.Records records1;
+    private view.DashTabs.Usermgr usermgr1;
     // End of variables declaration//GEN-END:variables
 }

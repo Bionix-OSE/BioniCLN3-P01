@@ -3,18 +3,88 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package view.DashTabs;
+import controller.PetCtrl;
+import model.Pet;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author BioniDKU
- */
 public class Pets extends javax.swing.JPanel {
 
-    /**
-     * Creates new form Pets
-     */
+    private PetCtrl controller = new PetCtrl();
+    private DefaultTableModel tableModel;
+
     public Pets() {
         initComponents();
+        
+        
+        loadData();
+        
+        btnF5.addActionListener(e -> loadData());
+        btnAdd.addActionListener(e -> addPet());
+        btnDel.addActionListener(e -> deletePet());
+    }
+
+    private void loadData() {
+        tableModel = (DefaultTableModel) Table.getModel();
+        tableModel.setRowCount(0);
+
+        ArrayList<Pet> list = controller.getAllPets();
+
+        for (Pet p : list) {
+            String extraInfo = p.getBreed(); 
+
+            tableModel.addRow(new Object[]{
+                p.getId(),
+                p.getName(),
+                p.getType(),
+                extraInfo,
+                p.getAge(),
+                p.getPrice(),
+                true
+            });
+        }
+    }
+
+    private void addPet() {
+        try {
+            String name = txtName.getText();
+            String type = txtType.getSelectedItem().toString();
+            String breed = txtBrd.getText();
+            int age = Integer.parseInt(txtAge.getText());
+            double price = Double.parseDouble(txtPrice.getText());
+
+            controller.addPet(name, age, price, type, breed);
+            
+            JOptionPane.showMessageDialog(this, "Added successfully!");
+            loadData();
+            
+            txtName.setText("");
+            txtBrd.setText("");
+            txtAge.setText("");
+            txtPrice.setText("");
+            
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Age and Price must be numbers!", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        }
+    }
+
+    private void deletePet() {
+        int selectedRow = Table.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a pet to delete.");
+            return;
+        }
+
+        int id = (int) Table.getValueAt(selectedRow, 0);
+        
+        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete Pet ID: " + id + "?");
+        if (confirm == JOptionPane.YES_OPTION) {
+            controller.deletePet(id);
+            loadData();
+        }
     }
 
     /**
